@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <!-- Meta Tags -->
+        <meta charset="utf-8">
+        <meta name = "viewport" content = "width=device-width, initial-scale=1.0">
+        <title>Personal Information Sheet</title>
+
+        <!-- Imported CSS/JS -->
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+        <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400&family=Roboto+Condensed&family=Roboto+Mono:wght@400;500&family=Roboto:ital,wght@1,100&display=swap" rel="stylesheet">
+        <link rel="stylesheet" type="text/css" href="Styles.css">
+
+        <script>
+            function validateField(eName){ //Checks input field named eName and colours it based on validity
+                let field = document.forms["submission"][eName];
+
+                if(field.value === '' || !field.checkValidity()){
+                    field.classList.add('invalidated');
+                    field.classList.remove('validated');
+                } 
+                else {
+                    field.classList.add('validated');
+                    field.classList.remove('invalidated');
+                }
+            }
+
+            function validateFederal(){ //Checks country and province combination and colours selections based on validity
+                let province = document.getElementById('province');
+                let country = document.getElementById('country');
+
+                if(country.value === 'Canada' && province.value === 'American State' || country.value === 'United States' && province.value !== 'American State'){
+                    province.classList.add('invalidated');
+                    country.classList.add('invalidated');
+                    province.classList.remove('validated');
+                    country.classList.remove('validated');
+                    return false;
+                }
+                else{
+                    province.classList.remove('invalidated');
+                    country.classList.remove('invalidated');
+                    province.classList.add('validated');
+                    country.classList.add('validated');
+                    return true;
+                }
+            }
+
+            function validateForm(event) //Checks for country province mismatch upon submission
+            {
+                if(!validateFederal())
+                {
+                    alert("Invalid Province and Country combination! Please review your information.");
+                    event.preventDefault();
+                }
+            }
+        </script>
+    </head>
+
+    <body class="d-flex flex-column h-100">
+        <header>
+            <h1 id="header" class="col-12 is-vcentered">
+                <span style="color: #e21d1d;">Signup</span>
+                <span style="color: #0b0b0c;">Form &ensp;</span>
+            </h1>
+        </header>
+
+        <main class="flex-shrink-0 pb-0">           
+            <div class="container p-0">
+                <form name="submission" class="row m-md-1 mb-md-0 pt-2 justify-content-center" action="submission.php" onsubmit="validateForm(event);" method="post">
+                    
+                    <span class="col-md-5 m-3 p-3 shadow text-md-left panel"> <!-- On the Left (widescreen) -->
+                        <h3>Personal Details</h3>
+                        <hr>
+
+                        <section>
+                            <Label for="name_first">First Name*</Label>
+                            <input name="name_first" id="name_first" maxlength="255" placeholder="Please enter your First Name" required oninput="validateField(name);">
+                        </section>
+    
+                        <section>
+                            <Label for="name_last">Last Name*</Label>
+                            <input name="name_last" id="name_last" maxlength="255" placeholder="Please enter your Last Name" required oninput="validateField(name);">
+                        </section>
+
+                        <section>
+                            <Label for="phone">
+                                <span>Phone Number*</span>
+                                <span style="color: #9e9e9e; font-size: small;"> (format: 123-456-7890)</span>
+                            </Label>
+                            <input type="tel" name="phone" id="phone" maxlength="12" placeholder="Please enter your Phone Number" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}|[0-9]{3}[0-9]{3}[0-9]{4}" required oninput="validateField(name);"> 
+                        </section>
+
+                        <br>
+                        <h3>Account Information</h3>
+                        <hr>
+
+                        <section>
+                            <Label for="email">
+                                <span>Email*</span>
+                                <span style="color: #9e9e9e; font-size: small;"> (format: your-name@domain.com)</span>
+                            </Label>
+                            <input type="email" name="email" id="email" placeholder="Please enter your Email" required oninput="validateField(name);">
+                        </section>
+    
+                        <section>
+                            <Label for="password">Password*</Label>
+                            <input type="password" name="password" id="password" placeholder="Please enter your Password" required oninput="validateField(name);">
+                        </section>                     
+                    </span>
+    
+                    <span class="col-md-5 m-3 p-3 shadow text-md-left panel"> <!-- On the Right (widescreen) -->
+                        <h3>Address Information</h3>
+                        <hr>
+
+                        <section>
+                            <Label for="address">Street Address*</Label>
+                            <input name="address" id="address" maxlength="255" placeholder="Please enter your Street Address" required oninput="validateField(name);">
+                        </section>
+    
+                        <section>
+                            <Label for="apt">
+                                <span>Apartment / Suite Number </span>
+                                <span style="color: #9e9e9e; font-size: small;"> (optional)</span>
+                            </Label>
+                            <input name="apt" id="apt" maxlength="255" placeholder="Enter your Apt, Suite, Unit number here" >
+                        </section>
+
+                        <section>
+                            <Label for="city">City*</Label>
+                            <input name="city" id="city" maxlength="255" placeholder="Please enter your City Name" required oninput="validateField(name);">
+                        </section>
+
+                        <section>
+                            <Label for="province" >Province*</Label>
+                            <select name="province" id="province" class="validated" required onchange="validateFederal();">
+                                <optgroup label="Provinces">
+                                    <option value="Alberta">Alberta</option>
+                                    <option value="British Columbia">British Columbia</option>
+                                    <option value="Manitoba">Manitoba</option>
+                                    <option value="New Brunswick">New Brunswick</option>
+                                    <option value="Newfoundland and Labrador">Newfoundland and Labrador</option>
+                                    <option value="Northwest Territory">Northwest Territory</option>
+                                    <option value="Nova Scotia">Nova Scotia</option>
+                                    <option value="Nunavut">Nunavut</option>
+                                    <option value="Ontario">Ontario</option>
+                                    <option value="Prince Edward Island">Prince Edward Island</option>
+                                    <option value="Quebec">Quebec</option>
+                                    <option value="Saskatchewan">Saskatchewan</option>
+                                    <option value="Yukon">Yukon</option>
+                                    <option value="American State">American State</option>
+                                </optgroup> 
+                            </select>
+                        </section>
+
+                        <section>
+                            <Label for="country">Country*</Label>
+                            <select name="country" id="country" class="validated" required onchange="validateFederal();">
+                                <optgroup label="Country">
+                                    <option value="Canada">Canada</option>
+                                    <option value="United States">United States</option>
+                                </optgroup> 
+                            </select>
+                        </section>
+                    </span>
+                    
+                    <span class="col-md-12 text-center"> <!-- At the bottom -->
+                        <section>
+                            <h3 style="margin-bottom: 0%;">Happy with Your Information?</h3>
+                            <input type="submit" value="Submit For Review" class="b shadow-lg">
+                        </section>
+                    </span>
+                </form> 
+            </div>
+        </main>
+
+        <footer class="footer text-center">
+            <p id="footer">
+                This is a website created with bootstrap and PHP.
+                <br><br>
+                ©2022 Aminnausin 
+            </p>
+        </footer>
+    </body>
+</html>
