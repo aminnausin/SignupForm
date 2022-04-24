@@ -69,7 +69,16 @@
         <header>
             <h1 id="header" class="col-12 is-vcentered">
                 <span style="color: #e21d1d;">&ensp;&ensp;&ensp;Signup</span>
-                <span style="color: #0b0b0c;">Successful</span>
+                <span style="color: #0b0b0c;">
+                <?php 
+                    if ($firstName != '') {
+                        echo "Successful";
+                    }
+                    else{
+                        echo "Failed";
+                    }
+                ?>
+                </span>
             </h1>
         </header>
 
